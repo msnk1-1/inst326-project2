@@ -1,34 +1,39 @@
-# Information Retrieval Project
+# INST 326 Project 2 - Information Retrieval System
 
-This project implements an Information Retrieval (IR) system in Python. 
-It demonstrates both a **functional approach** and an **object-oriented design** for indexing and searching documents.
+This repository contains the implementation, documentation, and tests for **Project 2** in INST 326. The project focuses on creating an information retrieval system using object-oriented design principles.
 
----
+## Project Structure
 
-## Folder Structure
+- **docs/**: Documentation files  
+  - `README.md`: This file  
+  - `ai_journal.md`: Team journal documenting design decisions and AI usage  
+  - `class_design.md`: Class design overview and rationale  
+  - `usage_examples.md`: Example usage of main classes  
 
-- `src/` - source code  
-  - `ir_library.py` - functional implementation  
-  - `ir_oop.py` - object-oriented implementation  
-- `tests/` - unit tests for the IR system  
-  - `test_search_engine.py`  
-- `docs/` - project documentation  
-  - `README.md`  
-  - `ai_journal.md`  
-  - `class_design.md`  
-  - `usage_examples.md`  
-- `journal/` - notes and logs  
-  - `.gitkeep` (placeholder)  
-  - `daily_log.md`  
-- `.gitignore` - ignored files  
+- **journal/**: Daily logs for the project  
+  - `daily_log.md`: Combined log of all team members’ contributions, code, and reflections  
 
----
+- **src/**: Source code  
+  - `ir_library.py`: Core library classes and utilities  
+  - `ir_oop.py`: Object-oriented implementation of the system  
+  - `__init__.py`: Package initializer  
 
-## How to Run the Project
+- **tests/**: Unit tests  
+  - `test_search_engine.py`: Tests for SearchEngine and related classes  
+  - `__init__.py`: Package initializer  
 
-This project is written in Python. To run locally:
+- **.gitignore**: Ignored files including Python caches, virtual environments, and IDE configs  
 
-1. **Clone the repo**:
+## Team Members
 
+- Messiah  
+- Elijah  
+- Kunaal  
+- Mitchell  
+- Sukontho  
+
+## How to Use
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/msnk1-1/inst326-project2
+git clone <your-repo-url>
