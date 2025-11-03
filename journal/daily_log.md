@@ -5,7 +5,7 @@ This log records all team members’ contributions, classes worked on, example u
 Date: 2025-11-02  
 Course: INST 326  
 
-Team Member: Messiah  
+Team Members: Messiah, Elijah, Kunaal, Mitchell, Sukontho (Messiah's log is first)  
 Classes Worked On: Document, Tokenizer  
 Example Usage:  
 ```python
