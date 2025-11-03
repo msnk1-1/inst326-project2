@@ -1,4 +1,4 @@
-# INST 326 Project 2 ‑ Information Retrieval System (OOP Implementation)
+# INST 326 Project 2 – Information Retrieval System (OOP Implementation)
 
 This repository contains the implementation, documentation, and tests for **Project 2** in INST 326. The project focuses on creating an information retrieval system using object‑oriented design principles.
 
@@ -9,15 +9,19 @@ This repository contains the implementation, documentation, and tests for **Proj
   - `ai_journal.md`: Team journal documenting contributions and design decisions  
   - `class_design.md`: Class design overview and rationale  
   - `usage_examples.md`: Example usage of main classes  
+
 - **journal/**: Daily logs for the project  
   - `daily_log.md`: Combined log of all team members’ contributions, code, and reflections  
+
 - **src/**: Source code  
   - `ir_library.py`: Functional implementation  
   - `ir_oop.py`: Object‑oriented implementation of the system  
   - `__init__.py`: Package initializer  
+
 - **tests/**: Unit tests  
   - `test_search_engine.py`: Tests for SearchEngine and related classes  
   - `__init__.py`: Package initializer  
+
 - **.gitignore**: Ignored files including Python caches, virtual environments, and IDE configs  
 
 ## Team Members
@@ -27,7 +31,6 @@ This repository contains the implementation, documentation, and tests for **Proj
 - Mitchell  
 - Sukontho  
 
-## How to Use
+## Repository Link
 
-1. Copy and paste the repository:  
-https://github.com/msnk1-1/inst326-project2
+[inst326-project2](https://github.com/msnk1-1/inst326-project2)
