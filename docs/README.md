@@ -33,4 +33,4 @@ This repository contains the implementation, documentation, and tests for **Proj
 
 ## Repository Link
 
-[inst326-project2](https://github.com/msnk1-1/inst326-project2)
+[Click here to access the repository](https://github.com/msnk1-1/inst326-project2)
