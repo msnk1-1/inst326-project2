@@ -1,4 +1,4 @@
-# INST 326 Project 2 ‑ Information Retrieval System
+# INST 326 Project 2 ‑ Information Retrieval System (OOP Implementation)
 
 This repository contains the implementation, documentation, and tests for **Project 2** in INST 326. The project focuses on creating an information retrieval system using object‑oriented design principles.
 
