@@ -29,6 +29,5 @@ This repository contains the implementation, documentation, and tests for **Proj
 
 ## How to Use
 
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/msnk1-1/inst326-project2
+1. Copy and paste the repository:  
+https://github.com/msnk1-1/inst326-project2
