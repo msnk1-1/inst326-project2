@@ -1,58 +1,84 @@
-# Team Journal - Project Collaboration
+# Team Journal - INST 326 Project
 
-This journal documents each team member's contributions, design decisions, and reflections for Project 2.
+This journal documents each team member's contributions, classes used, and example usage for Project 2.
 
 ---
 
 ## Messiah
 
-### Classes Implemented
+### Class Implemented
 - **Document**
-  - **Responsibilities:** Handles document storage and metadata
-  - **Design Decisions:** Chose to encapsulate `doc_id` and `text` for safety; added `word_count()` method for utility
-  - **Reflections:** Learned how proper encapsulation improves code reliability and maintainability
-
-- **Tokenizer**
-  - **Responsibilities:** Tokenizes text and removes stopwords
-  - **Design Decisions:** Used a set for stopwords to improve lookup speed; implemented lowercase conversion for consistency
-  - **Reflections:** Gained experience in preprocessing text for search and retrieval tasks
+  - **Course:** INST 201
+  - **Responsibilities:** Handles storing document ID and text content
+  - **Example Usage:**  
+    ```python
+    doc = Document("doc1", "This is a sample document for testing.")
+    print(doc.word_count())  # Output: 7
+    ```
+  - **Reflections:** Learned how to design simple, reusable classes for storing structured data
 
 ---
 
 ## Elijah
 
-### Classes Implemented
+### Class Implemented
 - **InvertedIndex**
-  - **Responsibilities:** Maps tokens to the documents containing them
-  - **Design Decisions:** Used dictionary of sets to avoid duplicate entries; ensured search is case-insensitive
-  - **Reflections:** Learned how indexing structures affect search performance and efficiency
+  - **Course:** INST 201
+  - **Responsibilities:** Maps tokens to the set of documents containing them
+  - **Example Usage:**  
+    ```python
+    index = InvertedIndex()
+    index.add_document(doc, tokenizer)
+    print(index.search("sample"))  # Output: {'doc1'}
+    ```
+  - **Reflections:** Gained experience creating efficient data structures for search
 
 ---
 
 ## Kunaal
 
-### Classes Implemented
+### Class Implemented
 - **SearchEngine**
-  - **Responsibilities:** Combines tokenization and indexing to retrieve relevant documents
-  - **Design Decisions:** Stored documents in a dictionary for fast lookup; handled empty queries gracefully
-  - **Reflections:** Improved understanding of integrating multiple classes to create a cohesive system
+  - **Course:** INST 201
+  - **Responsibilities:** Uses `Tokenizer` and `InvertedIndex` to retrieve relevant documents
+  - **Example Usage:**  
+    ```python
+    engine = SearchEngine(tokenizer)
+    engine.add_document(doc)
+    results = engine.search("testing")
+    for r in results:
+        print(r.doc_id)
+    ```
+  - **Reflections:** Learned how to integrate multiple components into a working system
 
 ---
 
 ## Mitchell
 
-### Classes Implemented
+### Class Implemented
 - **AnalyticsModule**
-  - **Responsibilities:** Provides basic document analytics, such as token frequency
-  - **Design Decisions:** Designed methods to be modular for future expansions; ensured output is easy to read
-  - **Reflections:** Learned how to extend the project with additional functionality without affecting core classes
+  - **Course:** INST 201
+  - **Responsibilities:** Computes token frequencies and basic stats for documents
+  - **Example Usage:**  
+    ```python
+    analytics = AnalyticsModule()
+    analytics.compute_token_frequency(doc)
+    print(analytics.most_common_tokens(3))
+    ```
+  - **Reflections:** Learned how to add features without changing core system classes
 
 ---
 
 ## Sukontho
 
-### Classes Implemented
+### Class Implemented
 - **RankingModule**
-  - **Responsibilities:** Assigns simple relevance scores to documents based on token matches
-  - **Design Decisions:** Focused on clarity and simplicity; made sure it integrates smoothly with `SearchEngine`
-  - **Reflections:** Gained insight into ranking algorithms and how small features can enhance search systems
+  - **Course:** INST 201
+  - **Responsibilities:** Assigns relevance scores to documents based on token occurrences
+  - **Example Usage:**  
+    ```python
+    ranker = RankingModule()
+    scores = ranker.rank_documents("sample query", [doc])
+    print(scores)
+    ```
+  - **Reflections:** Practiced designing modules to enhance search results in a modular way
