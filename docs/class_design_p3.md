@@ -1,9 +1,9 @@
 # Project 3 — Object-Oriented Design  
-**Author:** Messiah Khalfani  
+**Authors:** Messiah Khalfani, Elijah, Kunaal Shah, Mitchell Maher, Sukontho  
 **Course:** INST326  
 **Branch:** project3
 
-This document explains how my updated IR (Information Retrieval) system now uses **inheritance**, **polymorphism**, and **composition** to meet all requirements for Project 3.
+This document explains how our updated IR (Information Retrieval) system now uses **inheritance**, **polymorphism**, and **composition** to meet all requirements for Project 3.
 
 ---
 
@@ -18,7 +18,7 @@ All documents in the system inherit from one shared abstract base class:
   - shared attributes: `doc_id`, `title`, `raw_text`
 
 ### ✔ Concrete document subclasses
-I created **three** subclasses that extend `AbstractDocument`:
+We created **three** subclasses that extend `AbstractDocument`:
 
 - `NewsArticle`
 - `WebPage`
@@ -27,7 +27,7 @@ I created **three** subclasses that extend `AbstractDocument`:
 Each subclass adds unique fields (e.g., `published_date`, `url`, `venue`, etc.) and implements the abstract methods in its own way.
 
 ### ✔ Ranker inheritance
-I also created an inheritance hierarchy for ranking algorithms:
+We also created an inheritance hierarchy for ranking algorithms:
 
 - `AbstractRanker` (ABC)
 - `SimpleCountRanker` (subclass)
