@@ -1,36 +1,52 @@
-# INST 326 Project 2 – Information Retrieval System (OOP Implementation)
+# INST 326 Project 2 & Project 3 – Information Retrieval System (OOP Implementation)
 
-This repository contains the implementation, documentation, and tests for **Project 2** in INST 326. The project focuses on creating an information retrieval system using object‑oriented design principles.
+This repository contains the implementation, documentation, and tests for our team’s Information Retrieval System.  
+Project 2 established the foundation of the IR system, and **Project 3 extends it using advanced object-oriented programming concepts** including inheritance, polymorphism, abstract classes, and composition.
 
-## Project Structure
+---
 
-- **docs/**: Documentation files  
-  - `README.md`: This file  
-  - `ai_journal.md`: Team journal documenting contributions and design decisions  
-  - `class_design.md`: Class design overview and rationale  
-  - `usage_examples.md`: Example usage of main classes  
+## 🚀 Team Members
+- **Messiah Khalfani**  
+- **Elijah**  
+- **Kunaal Shah**  
+- **Mitchell Maher**  
+- **Sukontho**
 
-- **journal/**: Daily logs for the project  
-  - `daily_log.md`: Combined log of all team members’ contributions, code, and reflections  
+---
 
-- **src/**: Source code  
-  - `ir_library.py`: Functional implementation  
-  - `ir_oop.py`: Object‑oriented implementation of the system  
-  - `__init__.py`: Package initializer  
+## 📘 Project 3 Enhancements (Major Additions)
 
-- **tests/**: Unit tests  
-  - `test_search_engine.py`: Tests for SearchEngine and related classes  
-  - `__init__.py`: Package initializer  
+Project 3 expanded the system with the following OOP features:
 
-- **.gitignore**: Ignored files including Python caches, virtual environments, and IDE configs  
+### ✔ Inheritance
+We added two inheritance hierarchies:
 
-## Team Members
-- Messiah  
-- Elijah  
-- Kunaal  
-- Mitchell  
-- Sukontho  
+1. **Document Hierarchy**
+   - `AbstractDocument` (ABC)
+   - `NewsArticle`
+   - `WebPage`
+   - `ResearchPaper`
 
-## Repository Link
+2. **Ranker Hierarchy**
+   - `AbstractRanker` (ABC)
+   - `SimpleCountRanker`
+   - `TFIDFRanker`
 
-[Click here to access the repository](https://github.com/msnk1-1/inst326-project2)
+### ✔ Polymorphism
+Polymorphic behaviors now include:
+
+- Each document type implementing its own version of:
+  - `tokenize()`
+  - `get_metadata()`
+- Each ranker type providing its own `score()` implementation
+
+### ✔ Composition
+- `SearchEngine` **has-a** ranker & **has-a** list of documents  
+- `SearchResult` **has-a** document & score  
+
+This structure matches the “has-a” relationships required for Project 3.
+
+---
+
+## 📂 Project Structure
+
