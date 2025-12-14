@@ -8,6 +8,8 @@ from src.ir_oop import (
     ResearchPaper,
 )
 from src.storage import Storage
+from src.importers import import_documents_csv
+from src.exporters import export_results_json, export_report_txt
 
 
 def main() -> None:
@@ -21,11 +23,15 @@ def main() -> None:
     storage.load(engine)
     print(f"Loaded {len(engine.all_documents())} documents")
 
+    last_results = []
+
     while True:
         print("\n1) Add sample docs")
-        print("2) Search")
-        print("3) Save")
-        print("4) Reload")
+        print("2) Import docs from CSV")
+        print("3) Search")
+        print("4) Export last search results (JSON + report)")
+        print("5) Save")
+        print("6) Reload")
         print("0) Quit")
 
         choice = input("> ").strip()
@@ -39,16 +45,35 @@ def main() -> None:
             print("Sample documents added.")
 
         elif choice == "2":
-            query = input("Query: ").strip()
-            results = engine.search(query)
-            for r in results:
-                print(r.to_dict())
+            csv_path = Path(input("CSV path: ").strip())
+            docs = import_documents_csv(csv_path)
+            engine.add_documents(docs)
+            print(f"Imported {len(docs)} documents from CSV.")
 
         elif choice == "3":
+            query = input("Query: ").strip()
+            last_results = engine.search(query)
+            if not last_results:
+                print("No results.")
+            else:
+                for r in last_results:
+                    print(r.to_dict())
+
+        elif choice == "4":
+            if not last_results:
+                print("No previous search results to export. Run a search first.")
+                continue
+
+            out_dir = Path(input("Output folder (e.g., data/exports): ").strip())
+            export_results_json(last_results, out_dir / "results.json")
+            export_report_txt(last_results, out_dir / "report.txt")
+            print(f"Exported to: {out_dir}")
+
+        elif choice == "5":
             storage.save(engine)
             print("State saved.")
 
-        elif choice == "4":
+        elif choice == "6":
             storage.load(engine)
             print(f"Reloaded {len(engine.all_documents())} documents.")
 
