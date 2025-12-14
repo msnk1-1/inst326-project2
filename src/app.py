@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from ir_oop import (
+from src.ir_oop import (
     SearchEngine,
     SimpleCountRanker,
     NewsArticle,
     WebPage,
     ResearchPaper,
 )
-from storage import Storage
+from src.storage import Storage
 
 
 def main() -> None:
