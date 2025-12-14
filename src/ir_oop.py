@@ -1,18 +1,17 @@
 """
 INST326 Project 3 — Object-Oriented IR System (Messiah Khalfani)
 
-Implements:
-- AbstractDocument + 3 subclasses
-- AbstractRanker + 2 subclasses
-- Polymorphism via tokenize(), get_metadata(), score()
-- Composition via SearchEngine + SearchResult
+Upgraded for Project 4 persistence:
+- Documents, Rankers, and SearchEngine can serialize/deserialize to/from dict
+- Enables save/load via Storage(engine.to_dict / engine.from_dict)
 """
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections import Counter
 from dataclasses import dataclass
-from typing import Dict, List, Iterable, Optional
+from typing import Dict, List, Iterable, Optional, Any
 import math
 
 
@@ -36,13 +35,23 @@ class AbstractDocument(ABC):
         """Return metadata for display/search results."""
         raise NotImplementedError
 
+    # ---- Project 4: persistence helpers ----
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialize the document (including its concrete type)."""
+        return {
+            "doc_type": self.__class__.__name__,
+            "doc_id": self.doc_id,
+            "title": self.title,
+            "raw_text": self.raw_text,
+        }
+
 
 # ============================
 #  DOCUMENT SUBCLASSES
 # ============================
 
 class NewsArticle(AbstractDocument):
-    def __init__(self, doc_id, title, raw_text, source, published_date):
+    def __init__(self, doc_id: str, title: str, raw_text: str, source: str, published_date: str):
         super().__init__(doc_id, title, raw_text)
         self.source = source
         self.published_date = published_date
@@ -59,9 +68,27 @@ class NewsArticle(AbstractDocument):
             "published_date": self.published_date,
         }
 
+    def to_dict(self) -> Dict[str, Any]:
+        d = super().to_dict()
+        d.update({
+            "source": self.source,
+            "published_date": self.published_date,
+        })
+        return d
+
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> "NewsArticle":
+        return NewsArticle(
+            doc_id=str(data["doc_id"]),
+            title=str(data["title"]),
+            raw_text=str(data["raw_text"]),
+            source=str(data.get("source", "")),
+            published_date=str(data.get("published_date", "")),
+        )
+
 
 class WebPage(AbstractDocument):
-    def __init__(self, doc_id, title, raw_text, url):
+    def __init__(self, doc_id: str, title: str, raw_text: str, url: str):
         super().__init__(doc_id, title, raw_text)
         self.url = url
 
@@ -76,9 +103,25 @@ class WebPage(AbstractDocument):
             "url": self.url,
         }
 
+    def to_dict(self) -> Dict[str, Any]:
+        d = super().to_dict()
+        d.update({
+            "url": self.url,
+        })
+        return d
+
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> "WebPage":
+        return WebPage(
+            doc_id=str(data["doc_id"]),
+            title=str(data["title"]),
+            raw_text=str(data["raw_text"]),
+            url=str(data.get("url", "")),
+        )
+
 
 class ResearchPaper(AbstractDocument):
-    def __init__(self, doc_id, title, raw_text, authors, venue):
+    def __init__(self, doc_id: str, title: str, raw_text: str, authors: List[str], venue: str):
         super().__init__(doc_id, title, raw_text)
         self.authors = authors
         self.venue = venue
@@ -95,6 +138,47 @@ class ResearchPaper(AbstractDocument):
             "venue": self.venue,
         }
 
+    def to_dict(self) -> Dict[str, Any]:
+        d = super().to_dict()
+        d.update({
+            "authors": list(self.authors),
+            "venue": self.venue,
+        })
+        return d
+
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> "ResearchPaper":
+        raw_authors = data.get("authors", [])
+        authors: List[str]
+        if isinstance(raw_authors, list):
+            authors = [str(a) for a in raw_authors]
+        elif isinstance(raw_authors, str):
+            authors = [a.strip() for a in raw_authors.split(",") if a.strip()]
+        else:
+            authors = []
+
+        return ResearchPaper(
+            doc_id=str(data["doc_id"]),
+            title=str(data["title"]),
+            raw_text=str(data["raw_text"]),
+            authors=authors,
+            venue=str(data.get("venue", "")),
+        )
+
+
+def document_from_dict(data: Dict[str, Any]) -> AbstractDocument:
+    """Factory to rebuild the correct concrete document class from dict."""
+    doc_type = data.get("doc_type")
+
+    if doc_type == "NewsArticle":
+        return NewsArticle.from_dict(data)
+    if doc_type == "WebPage":
+        return WebPage.from_dict(data)
+    if doc_type == "ResearchPaper":
+        return ResearchPaper.from_dict(data)
+
+    raise ValueError(f"Unknown document type: {doc_type}")
+
 
 # ============================
 #  ABSTRACT RANKER
@@ -106,6 +190,10 @@ class AbstractRanker(ABC):
         """Return a numeric relevance score for (query, document)."""
         raise NotImplementedError
 
+    # ---- Project 4: persistence helpers ----
+    def to_dict(self) -> Dict[str, Any]:
+        return {"ranker_type": self.__class__.__name__}
+
 
 class SimpleCountRanker(AbstractRanker):
     """Scores by raw count of query tokens in the document."""
@@ -113,6 +201,10 @@ class SimpleCountRanker(AbstractRanker):
     def score(self, query_tokens: List[str], document_tokens: List[str]) -> float:
         doc_counts = Counter(document_tokens)
         return float(sum(doc_counts[t] for t in query_tokens))
+
+    @staticmethod
+    def from_dict(_: Dict[str, Any], __: Optional[Dict[str, int]] = None, ___: Optional[int] = None) -> "SimpleCountRanker":
+        return SimpleCountRanker()
 
 
 class TFIDFRanker(AbstractRanker):
@@ -135,6 +227,21 @@ class TFIDFRanker(AbstractRanker):
             score += tf * idf
 
         return score
+
+    @staticmethod
+    def from_dict(_: Dict[str, Any], doc_freqs: Dict[str, int], total_docs: int) -> "TFIDFRanker":
+        return TFIDFRanker(doc_freqs=doc_freqs, total_docs=total_docs)
+
+
+def ranker_from_dict(data: Dict[str, Any], doc_freqs: Dict[str, int], total_docs: int) -> AbstractRanker:
+    ranker_type = data.get("ranker_type")
+
+    if ranker_type == "SimpleCountRanker":
+        return SimpleCountRanker.from_dict(data, doc_freqs, total_docs)
+    if ranker_type == "TFIDFRanker":
+        return TFIDFRanker.from_dict(data, doc_freqs, total_docs)
+
+    raise ValueError(f"Unknown ranker type: {ranker_type}")
 
 
 # ============================
@@ -197,3 +304,47 @@ class SearchEngine:
 
         results.sort(key=lambda r: r.score, reverse=True)
         return results[:top_k]
+
+    # ---- Project 4: persistence helpers ----
+    def _build_doc_freqs(self) -> Dict[str, int]:
+        """
+        Compute document frequencies across the current corpus.
+        df(term) = number of documents that contain term at least once.
+        """
+        df: Dict[str, int] = {}
+        for doc in self._documents.values():
+            unique_terms = set(doc.tokenize())
+            for t in unique_terms:
+                df[t] = df.get(t, 0) + 1
+        return df
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "ranker": self.ranker.to_dict(),
+            "documents": [doc.to_dict() for doc in self._documents.values()],
+        }
+
+    def from_dict(self, data: Dict[str, Any]) -> None:
+        # clear current state
+        self._documents = {}
+
+        # load documents first
+        docs_raw = data.get("documents", [])
+        if not isinstance(docs_raw, list):
+            raise ValueError("Expected 'documents' to be a list")
+
+        for item in docs_raw:
+            if not isinstance(item, dict):
+                raise ValueError("Each document must be a dict")
+            doc = document_from_dict(item)
+            self.add_document(doc)
+
+        # rebuild ranker (TFIDF needs freqs/total_docs)
+        ranker_raw = data.get("ranker", {})
+        if not isinstance(ranker_raw, dict):
+            raise ValueError("Expected 'ranker' to be a dict")
+
+        doc_freqs = self._build_doc_freqs()
+        total_docs = max(1, len(self._documents))
+
+        self.ranker = ranker_from_dict(ranker_raw, doc_freqs, total_docs)
