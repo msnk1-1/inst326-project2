@@ -2,8 +2,8 @@ import unittest
 import tempfile
 from pathlib import Path
 
-from ir_oop import SearchEngine, SimpleCountRanker, NewsArticle
-from storage import Storage
+from src.ir_oop import SearchEngine, SimpleCountRanker, NewsArticle
+from src.storage import Storage
 
 
 class TestPersistenceIntegration(unittest.TestCase):
