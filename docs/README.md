@@ -8,6 +8,19 @@ This repository contains the implementation, documentation, and tests for our te
 
 ---
 
+## 🎥 Video Presentation (Project 4)
+**Project 4 Capstone Demo & Explanation:**  
+👉 https://app.screencastify.com/watch/mz9N3V9xjLU4G2tEWXnP
+
+The video covers:
+- Domain problem and project goals  
+- System architecture and design decisions  
+- Persistence, import/export, and workflow demonstration  
+- Testing strategy and reliability  
+- Collaboration process and individual learning reflection  
+
+---
+
 ## 🚀 Team Members
 - **Messiah Khalfani**
 - **Elijah**
